@@ -18,18 +18,21 @@ const express = require("express");
 const app = express();
 
 function getStatus() {
+    let serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
+    let clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
     let players = jcmp.players.map(player => player.name);
     let packages = jcmp.packages.map(package => package.name);
     return {
         serverVersion,
         clientVersion,
         packages,
-        players
+        players,
+        jcmpconfig: JSON.parse(jcmp.server.config),
+        jcmpargs: jcmp.server.args,
+        jcmptps: jcmp.server.currentTickRate
     }
 }
 
-const serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
-const clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
 
 app.get("/v0/", (req, res) => {
     res.send(getStatus());
