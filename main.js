@@ -18,7 +18,8 @@ const express = require("express");
 const app = express();
 
 function getGamemode() {
-
+    let packages = jcmp.packages.map(package => package.name);
+    if (packages.indexOf("sandbox") > -1) return "sandbox";
 }
 
 function getStatus() {
