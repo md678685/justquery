@@ -17,6 +17,10 @@ const express = require("express");
 // Initialise Express
 const app = express();
 
+function getGamemode() {
+
+}
+
 function getStatus() {
     let players = jcmp.players.map(player => player.name);
     let packages = jcmp.packages.map(package => package.name);
