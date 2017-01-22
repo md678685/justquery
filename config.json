@@ -1,0 +1,9 @@
+{
+    "express": {
+        "port": 4204
+    },
+    "jcmp": {
+        "serverVersion": "0.9.7",
+        "clientVersion": "0.9.6"
+    }
+}
