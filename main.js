@@ -11,15 +11,22 @@
 // Config
 const config = require("./config.json");
 
+// Internal modules
+const util = require("./util.js");
+const intersect = util.arrayIntersect;
+
 // External modules
 const express = require("express");
+
+// Misc constants
+const gamemodePackages = ["nanos-freeroam", "race"];
 
 // Initialise Express
 const app = express();
 
 function getGamemode() {
     let packages = jcmp.packages.map(package => package.name);
-    if (packages.indexOf("sandbox") > -1) return "sandbox";
+    return intersect(packages, gamemodePackages);
 }
 
 function getStatus() {
@@ -32,6 +39,7 @@ function getStatus() {
         clientVersion,
         packages,
         players,
+        gamemode: getGamemode(),
         jcmpconfig: filterConfig(),
         jcmpargs: jcmp.server.args,
         jcmptps: jcmp.server.currentTickRate
