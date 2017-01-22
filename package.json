@@ -1,0 +1,19 @@
+{
+  "name": "justquery",
+  "version": "0.1.0",
+  "description": "A query package for JC3MP servers.",
+  "main": "main.js",
+  "repository": {
+    "url": "https://github.com/md678685/justquery.git",
+    "type": "git"
+  },
+  "author": "md678685 <mathew678@hotmail.co.uk>",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo 'Not yet implemented, use script \"run_server\" to start emulator' && exit 1",
+    "run_server": "cp ./*.js jcmpserver/packages/justcord && cd jcmpserver && jcmp-server && rm packages/justcord/*.js"
+  },
+  "dependencies": {
+    "express": "^4.14.0"
+  }
+}
