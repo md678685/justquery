@@ -4,6 +4,7 @@
     },
     "jcmp": {
         "serverVersion": "0.9.7",
-        "clientVersion": "0.9.6"
+        "clientVersion": "0.9.6",
+        "hidePassword": true
     }
 }

@@ -27,12 +27,15 @@ function getStatus() {
         clientVersion,
         packages,
         players,
-        jcmpconfig: JSON.parse(jcmp.server.config),
+        jcmpconfig: filterConfig(),
         jcmpargs: jcmp.server.args,
         jcmptps: jcmp.server.currentTickRate
     }
 }
 
+function filterConfig() {
+    return (config.jcmp.hidePassword ? Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) : JSON.parse(jcmp.server.config));
+}
 
 app.get("/v0/", (req, res) => {
     res.send(getStatus());
