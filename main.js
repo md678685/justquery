@@ -17,6 +17,10 @@ const express = require("express");
 // Initialise Express
 const app = express();
 
+function getGamemode() {
+
+}
+
 function getStatus() {
     let serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
     let clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
