@@ -24,7 +24,11 @@ const gamemodePackages = ["nanos-freeroam", "race"];
 // Initialise Express
 const app = express();
 
-// Status retrieval functions
+// Status functions
+
+function addGamemode(mode) {
+    if (gamemodePackages.indexOf(mode) === -1) gamemodePackages.push(mode);
+}
 
 function getGamemode() {
     let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
@@ -62,13 +66,12 @@ jcmp.events.Add("justquery-status", () => {
     return getStatus();
 });
 
-jcmp.events.Add("justquery-gmFunc", (mode = null) => {
-    if (mode) gamemodePackages.push(mode);
+jcmp.events.Add("justquery-gmFunc", () => {
     return getStatus;
 });
 
 jcmp.events.Add("justquery-gm", (mode = null) => {
-    if (mode) gamemodePackages.push(mode);
+    if (mode) addGamemode(mode);
     return getStatus();
 });
 
