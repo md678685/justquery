@@ -25,7 +25,7 @@ const gamemodePackages = ["nanos-freeroam", "race"];
 const app = express();
 
 function getGamemode() {
-    let packages = jcmp.packages.map(package => package.name);
+    let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
     return intersect(packages, gamemodePackages);
 }
 
@@ -52,7 +52,7 @@ function filterConfig() {
 
 app.get("/v0/", (req, res) => {
     res.send(getStatus());
-})
+});
 
 app.listen(config.express.port, (req, res) => {
     console.log(`Justquery listening on port ${config.express.port}`);
