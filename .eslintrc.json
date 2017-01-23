@@ -11,7 +11,27 @@
         "sourceType": "module"
     },
     "extends": "eslint-config-airbnb",
+    "globals": {
+        "Vector2": false,
+        "Vector2f": false,
+        "Vector3": false,
+        "Vector3f": false,
+        "Vector4": false,
+        "Vector4f": false,
+        "RGB": false,
+        "RGBA": false,
+        "Vehicle": false,
+        "POI": false,
+        "Checkpoint": false,
+        "events": false,
+        "Package": false,
+        "jcmp": false,
+        "utility": false
+    },
     "rules": {
+        "new-cap": [1, {
+            "capIsNewExceptions": ["GiveWeapon", "Call", "Add", "CallRemote", "AddRemoteCallable", "Respawn", "SetTime", "Destroy"]
+        }],
         "no-const-assign": "warn",
         "no-this-before-super": "warn",
         "no-undef": "warn",
