@@ -24,6 +24,8 @@ const gamemodePackages = ["nanos-freeroam", "race"];
 // Initialise Express
 const app = express();
 
+// Status retrieval functions
+
 function getGamemode() {
     let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
     return intersect(packages, gamemodePackages);
@@ -50,9 +52,33 @@ function filterConfig() {
     return (config.jcmp.hidePassword ? Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) : JSON.parse(jcmp.server.config));
 }
 
+// JCMP events
+
+jcmp.events.Add("justquery-statusFunc", () => {
+    return getStatus;
+});
+
+jcmp.events.Add("justquery-status", () => {
+    return getStatus();
+});
+
+jcmp.events.Add("justquery-gmFunc", (mode = null) => {
+    if (mode) gamemodePackages.push(mode);
+    return getStatus;
+});
+
+jcmp.events.Add("justquery-gm", (mode = null) => {
+    if (mode) gamemodePackages.push(mode);
+    return getStatus();
+});
+
+// Express routes
+
 app.get("/v0/", (req, res) => {
     res.send(getStatus());
 });
+
+// Express listen
 
 app.listen(config.express.port, (req, res) => {
     console.log(`Justquery listening on port ${config.express.port}`);
