@@ -40,6 +40,7 @@
         "constructor-super": "warn",
         "valid-typeof": "warn",
         "quotes": ["warn", "double", {"allowTemplateLiterals": true}],
-        "indent": ["warn", 4]
+        "indent": ["error", 4],
+        "comma-dangle": "off"
     }
 }
