@@ -58,21 +58,15 @@ function filterConfig() {
 
 // JCMP events
 
-jcmp.events.Add("justquery-statusFunc", () => {
-    return getStatus;
-});
+jcmp.events.Add("justquery-statusFunc", () => getStatus);
 
-jcmp.events.Add("justquery-status", () => {
-    return getStatus();
-});
+jcmp.events.Add("justquery-status", () => getStatus());
 
-jcmp.events.Add("justquery-gmFunc", () => {
-    return getStatus;
-});
+jcmp.events.Add("justquery-gmFunc", () => getGamemode);
 
 jcmp.events.Add("justquery-gm", (mode = null) => {
     if (mode) addGamemode(mode);
-    return getStatus();
+    return getGamemode();
 });
 
 // Express routes
