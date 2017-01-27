@@ -13,6 +13,7 @@ const config = require("./config.json");
 
 // Internal modules
 const util = require("./util.js");
+
 const intersect = util.arrayIntersect;
 
 // External modules
@@ -30,16 +31,22 @@ function addGamemode(mode) {
     if (gamemodePackages.indexOf(mode) === -1) gamemodePackages.push(mode);
 }
 
+function filterConfig() {
+    return (config.jcmp.hidePassword ?
+        Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) :
+        JSON.parse(jcmp.server.config));
+}
+
 function getGamemode() {
-    let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
+    const packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
     return intersect(packages, gamemodePackages);
 }
 
 function getStatus() {
-    let serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
-    let clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
-    let players = jcmp.players.map(player => player.name);
-    let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
+    const serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
+    const clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
+    const players = jcmp.players.map(player => player.name);
+    const packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
     return {
         serverVersion,
         clientVersion,
@@ -49,11 +56,7 @@ function getStatus() {
         jcmpconfig: filterConfig(),
         jcmpargs: jcmp.server.args,
         jcmptps: jcmp.server.currentTickRate
-    }
-}
-
-function filterConfig() {
-    return (config.jcmp.hidePassword ? Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) : JSON.parse(jcmp.server.config));
+    };
 }
 
 // JCMP events
