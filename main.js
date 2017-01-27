@@ -39,7 +39,7 @@ function getStatus() {
     let serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
     let clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
     let players = jcmp.players.map(player => player.name);
-    let packages = jcmp.packages.map(package => package.name);
+    let packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
     return {
         serverVersion,
         clientVersion,
