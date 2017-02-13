@@ -9,7 +9,7 @@ A JC3MP server package that let you query info about your server.
 
 ## Usage
 Restart your Just Cause 3 MP server or reload the package with: `restart_package jusquery` if your server was allready running.
-Go to the url : <server IP>:4204/v0 . The server will return you a well formed JSON.
+Go to the url : "YourServerIP:4204/v0" . The server will return you a well formed JSON.
 
 ## Dependencies
   TODO
