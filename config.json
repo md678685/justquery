@@ -3,8 +3,8 @@
         "port": 4204
     },
     "jcmp": {
-        "serverVersion": "0.9.7",
-        "clientVersion": "0.9.6",
+        "serverVersion": "0.9.8",
+        "clientVersion": "0.9.8",
         "hidePassword": true
     }
 }
