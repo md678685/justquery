@@ -42,21 +42,25 @@ function getGamemode() {
     return intersect(packages, gamemodePackages);
 }
 
-function getStatus() {
+function getStatus(version = 0) {
     const serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
     const clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
     const players = jcmp.players.map(player => player.name);
     const packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
-    return {
-        serverVersion,
-        clientVersion,
-        packages,
-        players,
-        gamemode: getGamemode(),
-        jcmpconfig: filterConfig(),
-        jcmpargs: jcmp.server.args,
-        jcmptps: jcmp.server.currentTickRate
-    };
+    switch (version) {
+    case 0:
+    default:
+        return {
+            serverVersion,
+            clientVersion,
+            packages,
+            players,
+            gamemode: getGamemode(),
+            jcmpconfig: filterConfig(),
+            jcmpargs: jcmp.server.args,
+            jcmptps: jcmp.server.currentTickRate
+        };
+    }
 }
 
 // JCMP events
