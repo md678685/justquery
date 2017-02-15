@@ -11,35 +11,78 @@
 // Config
 const config = require("./config.json");
 
+// Internal modules
+const util = require("./util.js");
+
+const intersect = util.arrayIntersect;
+
 // External modules
 const express = require("express");
+
+// Misc constants
+const gamemodePackages = ["nanos-freeroam", "race"];
 
 // Initialise Express
 const app = express();
 
-function getStatus() {
-    let serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
-    let clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
-    let players = jcmp.players.map(player => player.name);
-    let packages = jcmp.packages.map(package => package.name);
-    return {
-        serverVersion,
-        clientVersion,
-        packages,
-        players,
-        jcmpconfig: filterConfig(),
-        jcmpargs: jcmp.server.args,
-        jcmptps: jcmp.server.currentTickRate
-    }
+// Status functions
+
+function addGamemode(mode) {
+    if (gamemodePackages.indexOf(mode) === -1) gamemodePackages.push(mode);
 }
 
 function filterConfig() {
-    return (config.jcmp.hidePassword ? Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) : JSON.parse(jcmp.server.config));
+    return (config.jcmp.hidePassword ?
+        Object.assign({}, JSON.parse(jcmp.server.config), { password: undefined }) :
+        JSON.parse(jcmp.server.config));
 }
+
+function getGamemode() {
+    const packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
+    return intersect(packages, gamemodePackages);
+}
+
+function getStatus(version = 0) {
+    const serverVersion = jcmp.server.version || jcmp.version || config.jcmp.serverVersion;
+    const clientVersion = jcmp.server.version || jcmp.version || config.jcmp.clientVersion;
+    const players = jcmp.players.map(player => player.name);
+    const packages = jcmp.packages.map(jcmpPackage => jcmpPackage.name);
+    switch (version) {
+    case 0:
+    default:
+        return {
+            serverVersion,
+            clientVersion,
+            packages,
+            players,
+            gamemode: getGamemode(),
+            jcmpconfig: filterConfig(),
+            jcmpargs: jcmp.server.args,
+            jcmptps: jcmp.server.currentTickRate
+        };
+    }
+}
+
+// JCMP events
+
+jcmp.events.Add("justquery-statusFunc", () => getStatus);
+
+jcmp.events.Add("justquery-status", () => getStatus());
+
+jcmp.events.Add("justquery-gmFunc", () => getGamemode);
+
+jcmp.events.Add("justquery-gm", (mode = null) => {
+    if (mode) addGamemode(mode);
+    return getGamemode();
+});
+
+// Express routes
 
 app.get("/v0/", (req, res) => {
     res.send(getStatus());
-})
+});
+
+// Express listen
 
 app.listen(config.express.port, (req, res) => {
     console.log(`Justquery listening on port ${config.express.port}`);
